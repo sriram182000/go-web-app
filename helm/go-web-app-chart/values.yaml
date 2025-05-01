@@ -1,4 +1,4 @@
 image:
   appName: go-web-app
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v20
+  tag: v50
