@@ -6,6 +6,9 @@ pipeline{
         string(name: 'APP_NAME', defaultValue: 'go-web-app', description: 'enter the app name')
     }
 
+    enviroment {
+        img_name= "sriram789/${params.APP_NAME}:${params.DOCKER_TAG}"
+    }
 
 
     stages {
@@ -22,7 +25,7 @@ pipeline{
         stage("docker build") {
             steps {
                 script{
-                    sh 'docker build -t sriram789/${params.APP_NAME}:${params.DOCKER_TAG} .'
+                    sh 'docker build -t ${img_name} .'
                 }
 
             }
@@ -31,7 +34,7 @@ pipeline{
         stage("docker push") {
             steps {
                 script {
-                    sh 'docker push sriram789/${params.APP_NAME}:${params.DOCKER_TAG}'
+                    sh 'docker push ${img_name}'
                 }
 
             }
@@ -40,7 +43,7 @@ pipeline{
         stage("Delete Image from local") {
             steps {
                 script{
-                    sh 'docker rmi sriram789/${params.APP_NAME}:${params.DOCKER_TAG}'
+                    sh 'docker rmi ${img_name}'
                 }
 
             }
