@@ -14,42 +14,42 @@ pipeline{
 
 
     stages {
-        // stage("docker login") {
-        //     steps {
-        //         script {
-        //             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-        //                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-        //             }
-        //         }
-        //     }
-        // }
+        stage("docker login") {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
+                }
+            }
+        }
 
-        // stage("docker build") {
-        //     steps {
-        //         script{
-        //             sh 'docker build -t ${img_name} .'
-        //         }
+        stage("docker build") {
+            steps {
+                script{
+                    sh 'docker build -t ${img_name} .'
+                }
 
-        //     }
-        // }
+            }
+        }
 
-        // stage("docker push") {
-        //     steps {
-        //         script {
-        //             sh 'docker push ${img_name}'
-        //         }
+        stage("docker push") {
+            steps {
+                script {
+                    sh 'docker push ${img_name}'
+                }
 
-        //     }
-        // }
+            }
+        }
 
-        // stage("Delete Image from local") {
-        //     steps {
-        //         script{
-        //             sh 'docker rmi ${img_name}'
-        //         }
+        stage("Delete Image from local") {
+            steps {
+                script{
+                    sh 'docker rmi ${img_name}'
+                }
 
-        //     }
-        // }
+            }
+        }
         stage("Update values.yaml to start CD"){
             steps {
                 script{
@@ -66,7 +66,8 @@ pipeline{
                         sh """
                         git config user.email "saisriram13@gmail.com"
                         git config user.name "sriram182000"
-                        git remote set-url origin https://${GIT_USERNAME}:${GIT_TOKEN}@github.com/${GIT_USERNAME}/${app_name}.git
+                        https://${GIT_USERNAME}:${GIT_TOKEN}@github.com/${GIT_USERNAME}/${app_name}.git
+
                         git add helm/go-web-app-chart/values.yaml
                         git commit -m "Update appName and tag from Jenkins pipeline"
                         git push origin HEAD:main
