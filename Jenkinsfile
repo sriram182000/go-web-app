@@ -6,7 +6,7 @@ pipeline{
         string(name: 'APP_NAME', defaultValue: 'go-web-app', description: 'enter the app name')
     }
 
-    environment {
+    enviroment {
         img_name= "sriram789/${params.APP_NAME}:${params.DOCKER_TAG}"
     }
 
@@ -25,7 +25,6 @@ pipeline{
         stage("docker build") {
             steps {
                 script{
-		    sh 'whoami'	
                     sh 'docker build -t ${img_name} .'
                 }
 
@@ -50,10 +49,13 @@ pipeline{
             }
         }
     }
-}
 
-post {
-    always {
-        sh 'docker logout'
+    post {
+        always {
+            sh 'docker logout'
+        }
+        success {
+            echo "Pipeline execution is successfully completed"
+        }
     }
 }
