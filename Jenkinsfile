@@ -8,6 +8,8 @@ pipeline{
 
     environment {
         img_name= "sriram789/${params.APP_NAME}:${params.DOCKER_TAG}"
+	app_name= "${params.APP_NAME}"
+	tag="${params.DOCKER_TAG}"
     }
 
 
@@ -48,7 +50,15 @@ pipeline{
 
             }
         }
-    }
+	stage("Update values.yaml to start CD"){
+	    steps {
+		script{
+		    sh "sed -i 's/tag: .*/tag: ${tag}/' helm/go-web-app-chart/values.yaml" 
+		}
+	   }
+       }	
+	
+   }
 
     post {
         always {
