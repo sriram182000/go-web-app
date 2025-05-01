@@ -6,7 +6,7 @@ pipeline{
         string(name: 'APP_NAME', defaultValue: 'go-web-app', description: 'enter the app name')
     }
 
-    enviroment {
+    environment {
         img_name= "sriram789/${params.APP_NAME}:${params.DOCKER_TAG}"
     }
 
