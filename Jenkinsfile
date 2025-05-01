@@ -53,7 +53,8 @@ pipeline{
 	stage("Update values.yaml to start CD"){
 	    steps {
 		script{
-		    sh "sed -i 's/tag: .*/tag: ${tag}/' helm/go-web-app-chart/values.yaml" 
+		    sh "sed -i 's/tag: .*/tag: ${tag}/' helm/go-web-app-chart/values.yaml"
+		    sh "sed -i 's/appName: .*/appName: ${app_name}/' helm/go-web-app-chart/values.yaml" 
 		}
 	   }
        }	
